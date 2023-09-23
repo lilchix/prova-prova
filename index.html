@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stile.css">
+    <link rel="stylesheet" href="style.css">
     <title>E-commerce di Caffettiere</title>
 </head>
 <body>
     <header>
-        <h1>E-commerce di Caffettiere</h1>
-        <div id="cart-summary">
-            <span id="cart-count">0</span>
-            <button id="cart-button">Carrello</button>
-        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Prodotti</a></li>
+                <li><a href="#">Carrello</a></li>
+            </ul>
+        </nav>
     </header>
-    <div id="products">
+    <section class="hero">
+        <h1>Scopri la miglior selezione di caffettiere</h1>
+        <a href="#" class="shop-now-button">Acquista ora</a>
+    </section>
+    <section class="products">
         <!-- Qui verranno inseriti i prodotti -->
-    </div>
-    <div id="cart">
-        <!-- Qui verranno inseriti gli elementi del carrello -->
-    </div>
-    <script src="javascript.js"></script>
+    </section>
+    <section class="cart">
+        <h2>Il tuo carrello</h2>
+        <ul>
+            <!-- Qui verranno inseriti gli elementi del carrello -->
+        </ul>
+        <div class="cart-total">
+            <span>Totale:</span>
+            <span id="cart-total">0 €</span>
+        </div>
+    </section>
+    <script src="script.js"></script>
 </body>
 </html>
