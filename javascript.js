@@ -93,42 +93,44 @@ var swiper = new Swiper(".mySwiper", {
 
 
                                                // prodotti
-var quantity1Input = document.getElementById("quantity1");
-var quantity2Input = document.getElementById("quantity2");
-var quantity3Input = document.getElementById("quantity3");
-var totalCost1Output = document.getElementById("totalCost1");
-var totalCost2Output = document.getElementById("totalCost2");
-var totalCost3Output = document.getElementById("totalCost3");
-var subTotalOutput = document.getElementById("subTotal");
-var shippingCostOutput = document.getElementById("shippingCost");
-var grandTotalOutput = document.getElementById("grandTotal");
+// Esempio di dati del carrello (caffettiere)
+const cartItems = [
+    { id: 1, name: "Caffettiera Moka Express", price: 25 },
+    { id: 2, name: "Caffettiera a filtro automatica", price: 45 },
+    { id: 3, name: "Caffettiera Aeropress", price: 30 }
+];
 
-quantity1Input.addEventListener("input", updateCosts);
-quantity2Input.addEventListener("input", updateCosts);
-quantity3Input.addEventListener("input", updateCosts);
+// Funzione per aggiornare il carrello
+function updateCart() {
+    const cartElement = document.getElementById("cart");
+    const totalElement = document.getElementById("total");
+    let total = 0;
 
-function updateCosts() {
-  var quantity1 = parseInt(quantity1Input.value);
-  var quantity2 = parseInt(quantity2Input.value);
-  var quantity3 = parseInt(quantity3Input.value);
-  
-  var cost1 = 20;
-  var cost2 = 13;
-  var cost3 = 15;
-  
-  var totalCost1 = quantity1 * cost1;
-  var totalCost2 = quantity2 * cost2;
-  var totalCost3 = quantity3 * cost3;
-  
-  totalCost1Output.textContent = "€" + totalCost1;
-  totalCost2Output.textContent = "€" + totalCost2;
-  totalCost3Output.textContent = "€" + totalCost3;
-  
-  var subTotal = totalCost1 + totalCost2 + totalCost3;
-  var shippingCost = 8;
-  var grandTotal = subTotal + shippingCost;
-  
-  subTotalOutput.textContent = "€" + subTotal;
-  shippingCostOutput.textContent = "€" + shippingCost;
-  grandTotalOutput.textContent = "€" + grandTotal;
+    // Pulisci il contenuto del carrello
+    cartElement.innerHTML = "";
+
+    // Aggiungi gli elementi del carrello
+    cartItems.forEach(item => {
+        const cartItem = document.createElement("div");
+        cartItem.id = `cart-item-${item.id}`;
+        cartItem.className = "cart-item";
+        cartItem.innerHTML = `
+            <span>${item.name}</span>
+            <span>${item.price} €</span>
+        `;
+        cartElement.appendChild(cartItem);
+        total += item.price;
+    });
+
+    // Aggiorna il totale
+    totalElement.textContent = total;
 }
+
+// Aggiungi un evento al pulsante di pagamento
+const checkoutButton = document.getElementById("checkout");
+checkoutButton.addEventListener("click", () => {
+    alert("Pagamento effettuato con successo!");
+});
+
+// Aggiorna il carrello inizialmente
+updateCart();
