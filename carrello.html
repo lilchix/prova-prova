@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <meta name="description" content="sito di e-commerce di dolci per l'esame di fine anno di web design">
+  <meta name="keywords" content="web, web design, accademia, dolci, e-commerce, sito, carrello, compra, personalizza">
+  
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <!-- Link icone bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Link icone google -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Link icone Awesome 4 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Link file MIO css -->
+  <link rel="stylesheet" href="stile.css">
+  <!-- Link per il font h1 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <!-- Link per jquery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+  
+  
+<body>
+  <!-- head line -->
+  <header>
+    <div class="headline">
+      <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+    
+   <!-- menu -->    
+    <ul class="menu">
+      <div class="menu-close fa fa-close"></div>
+      <li class="menu-global menu-top">
+        <span class="menu-text">
+          <a class="nav-link" href="aboutus.html">Chi siamo</a>
+        </span>
+      </li>
+      <li class="menu-global menu-middle">
+        <span class="menu-text">
+          <a class="nav-link" href="index.html">Vai ai prodotti</a>
+        </span>
+      </li>
+      <li class="menu-global menu-bottom">
+        <span class="menu-text">
+          <a class="nav-link" href="#contatti">Contatti</a>
+        </span>
+      </li>
+    </ul>
+
+   <!-- logo -->
+    <center>
+     <div class="casella-logo">
+        <a href="index.html">
+            <img class="logo" src="img/logobianco.png">
+        </a>
+     </div>
+    </center>
+
+   <!-- carrello -->
+     <div class="boxcarrello">
+        <a href="carrello.html"><i class="fa fa-shopping-cart" style="font-size:25px; color: white;"></i> <span style="font-size: 20px;  padding: 4px;  color:white" id="carrello">0</span></a>
+     </div>
+   
+      </div>
+      </nav>
+    </div>
+  </header>
+
+   <div class="spazio-vuoto">
+   </div>
+ 
+  <!-- carrello -->
+
+  <h1 id="titolo-carrello">Carrello</h1>
+  
+      <main id="contenitore-carrello" class="container my-5">
+        <table class="table table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Prodotto</th>
+              <th scope="col" class="prezzo-singolo">Prezzo</th>
+              <th scope="col"><label for="quantity">Quantità</label></th>
+              <th scope="col">Totale</th>
+              <th scope="col">Custom</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <img class="img_carrello" src="img/cake5.webp">
+              </th>
+              <td><b>TORTA</b></td>
+              <td class="prezzo-singolo">€20</td>
+              <td>
+                <input type="number" id="quantity1" min="0" value="0">
+              </td>
+              <td id="totalCost1">€0</td>
+              <td>
+                <button class="bottoni-carrello">No</button>
+              </td>
+            </tr>
+
+
+            <tr>
+              <th scope="row">
+                <img class="img_carrello" src="img/muffin4.webp">
+              </th>
+              <td><b>CUPCAKE</b></td>
+              <td class="prezzo-singolo">€13</td>
+              <td>
+                <input type="number" id="quantity2" min="0" value="0">
+              </td>
+              <td id="totalCost2">€0</td>
+              <td>
+                <button class="bottoni-carrello" style="background-color: #FFE6AE; color:#935931;"><a href="muffin.html">Si</a></button>
+              </td>
+            </tr>
+
+
+            <tr>
+              <th scope="row">
+                <img class="img_carrello" src="img/roll2.webp">
+              </th>
+              <td><b>ROLL</b></td>
+              <td class="prezzo-singolo">€15</td>
+              <td>
+                <input type="number" id="quantity3" min="0" value="0">
+              </td>
+              <td id="totalCost3">€0</td>
+              <td>
+                <button class="bottoni-carrello">No</button>
+              </td>
+            </tr>
+          </tbody>
+          
+
+
+        </table>
+        <div class="row justify-content-end">
+          <div class="col-lg-4">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">Totale prodotti:</th>
+                  <td id="subTotal">€0</td>
+                </tr>
+
+
+                <tr>
+                  <th scope="row">Costi di spedizione:</th>
+                  <td id="shippingCost">€8</td>
+                </tr>
+
+
+                <tr>
+                  <th scope="row">Totale:</th>
+                  <td id="grandTotal">€0</td>
+                </tr>
+              </tbody>
+
+
+            </table>
+            <a href="#" class="btn btn-primary w-100">Procedi al pagamento</a>
+          </div>
+        </div>
+      </main>
+
+  <!-- footer --> 
+    <footer class="footer">
+      <div class="container text-center">
+        
+        <div class="fot">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2798.854587066455!2d8.6137757!3d45.4525863!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47865a24573b9d29%3A0x5064224377bd31e3!2sVia%20Costantino%20Porta%2C%2025%2C%2028100%20Novara%20NO!5e0!3m2!1sen!2sit!4v1654440794287!5m2!1sen!2sit" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" id="map"></iframe>
+        </div> 
+        
+        <div class="fot">
+          <p id="testofooter">
+            <i class="material-icons" style="font-size:15px; color: #FFE6AE;">location_on</i>  Novara (Italy), via C. Porta 25<br>
+            <i class="material-icons" style="font-size:15px; color: #FFE6AE;">call</i>  (+39) 0321.627101 / 628381 <br>
+            <i class="material-icons" style="font-size:15px; color: #FFE6AE;">email</i>  dolcinicakelab@gmail.it<br>
+            <br>
+            DOLCINI cake lab srl<br>
+            © Sella srl - PI 01176320032
+          </p>
+        </div>
+
+        <div class="fot">
+          <div id="rimandosocial">
+            <h4 style="text-align:center;">Resta aggiornato sulle nostre novità,<br>seguici anche sui social!</h4>
+            <a href="https://www.instagram.com/acmenovaraaccademia/" class="social"><i class="fa fa-instagram" style="font-size:35px; color: white;"></i></a>
+            <a href="https://www.facebook.com/ACMEaccademiaNovara/"  class="social"><i class="fa fa-facebook-f" style="font-size:35px; color: white;"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="javascript.js"> </script>
+  <!-- Collegamento ai file JavaScript di Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
