@@ -24,45 +24,40 @@ function createProductElement(product) {
 
 // Funzione per aggiornare il carrello
 function updateCart() {
-    const cartElement = document.getElementById("cart");
-    const cartCountElement = document.getElementById("cart-count");
+    const cartList = document.querySelector(".cart ul");
     const cartTotalElement = document.getElementById("cart-total");
     let total = 0;
 
     // Pulisci il contenuto del carrello
-    cartElement.innerHTML = "";
+    cartList.innerHTML = "";
 
     // Aggiungi gli elementi del carrello
     cartItems.forEach(item => {
-        const cartItem = document.createElement("div");
-        cartItem.className = "cart-item";
+        const cartItem = document.createElement("li");
         cartItem.innerHTML = `
             <img src="${item.image}" alt="${item.name}">
-            <div>
-                <p>${item.name}</p>
-                <p>Prezzo: ${item.price} €</p>
-                <p>Quantità: ${item.quantity}</p>
-            </div>
+            <span>${item.name}</span>
+            <span>Prezzo: ${item.price} €</span>
+            <span>Quantità: ${item.quantity}</span>
             <button class="remove-from-cart" data-id="${item.id}">Rimuovi</button>
         `;
-        cartElement.appendChild(cartItem);
+        cartList.appendChild(cartItem);
         total += item.price * item.quantity;
     });
 
-    // Aggiorna il conteggio del carrello e il totale
-    cartCountElement.textContent = cartItems.length;
-    cartTotalElement.textContent = `Totale: ${total} €`;
+    // Aggiorna il totale
+    cartTotalElement.textContent = `${total} €`;
 }
 
 // Aggiungi event listener per il pulsante "Carrello"
 const cartButton = document.getElementById("cart-button");
 cartButton.addEventListener("click", () => {
-    const cartElement = document.getElementById("cart");
+    const cartElement = document.querySelector(".cart");
     cartElement.classList.toggle("show-cart");
 });
 
 // Aggiungi event listener per i pulsanti "Aggiungi al carrello"
-const productsElement = document.getElementById("products");
+const productsElement = document.querySelector(".products");
 productsElement.addEventListener("click", (event) => {
     if (event.target.classList.contains("add-to-cart")) {
         const productId = parseInt(event.target.getAttribute("data-id"), 10);
@@ -83,8 +78,8 @@ productsElement.addEventListener("click", (event) => {
 });
 
 // Aggiungi event listener per i pulsanti "Rimuovi"
-const cartElement = document.getElementById("cart");
-cartElement.addEventListener("click", (event) => {
+const cartList = document.querySelector(".cart ul");
+cartList.addEventListener("click", (event) => {
     if (event.target.classList.contains("remove-from-cart")) {
         const productId = parseInt(event.target.getAttribute("data-id"), 10);
         const index = cartItems.findIndex(item => item.id === productId);
@@ -104,7 +99,7 @@ cartElement.addEventListener("click", (event) => {
 });
 
 // Popola la pagina con i prodotti
-const productsContainer = document.getElementById("products");
+const productsContainer = document.querySelector(".products");
 productsData.forEach(product => {
     const productElement = createProductElement(product);
     productsContainer.appendChild(productElement);
