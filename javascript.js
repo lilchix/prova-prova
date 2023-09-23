@@ -93,11 +93,11 @@ var swiper = new Swiper(".mySwiper", {
 
 
                                                // prodotti
-// Esempio di dati del carrello (caffettiere)
+// Esempio di dati del carrello (caffettiere) con foto, nome, prezzo fittizio e quantità
 const cartItems = [
-    { id: 1, name: "Caffettiera Moka Express", price: 25 },
-    { id: 2, name: "Caffettiera a filtro automatica", price: 45 },
-    { id: 3, name: "Caffettiera Aeropress", price: 30 }
+    { id: 1, name: "Caffettiera Moka Express", price: 25, quantity: 2, image: "moka.jpg" },
+    { id: 2, name: "Caffettiera a filtro automatica", price: 45, quantity: 1, image: "filtro.jpg" },
+    { id: 3, name: "Caffettiera Aeropress", price: 30, quantity: 3, image: "aeropress.jpg" }
 ];
 
 // Funzione per aggiornare il carrello
@@ -115,11 +115,15 @@ function updateCart() {
         cartItem.id = `cart-item-${item.id}`;
         cartItem.className = "cart-item";
         cartItem.innerHTML = `
-            <span>${item.name}</span>
-            <span>${item.price} €</span>
+            <img src="${item.image}" alt="${item.name}" class="product-image">
+            <div class="product-details">
+                <span class="product-name">${item.name}</span>
+                <span class="product-price">${item.price} €</span>
+                <input type="number" value="${item.quantity}" class="product-quantity">
+            </div>
         `;
         cartElement.appendChild(cartItem);
-        total += item.price;
+        total += item.price * item.quantity;
     });
 
     // Aggiorna il totale
@@ -134,3 +138,4 @@ checkoutButton.addEventListener("click", () => {
 
 // Aggiorna il carrello inizialmente
 updateCart();
+
