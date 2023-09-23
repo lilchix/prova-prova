@@ -1,106 +1,134 @@
-// Esempio di dati dei prodotti
-const productsData = [
-    { id: 1, name: "Caffettiera Moka Express", price: 25, image: "moka.jpg", description: "Una caffettiera classica per il caffè espresso." },
-    { id: 2, name: "Caffettiera a filtro automatica", price: 45, image: "filtro.jpg", description: "Per un caffè filtrato fresco e aromatico." },
-    { id: 3, name: "Caffettiera Aeropress", price: 30, image: "aeropress.jpg", description: "Un sistema di estrazione versatile per il caffè." }
-];
-
-// Dati del carrello
-const cartItems = [];
-
-// Funzione per creare un elemento di prodotto
-function createProductElement(product) {
-    const productElement = document.createElement("div");
-    productElement.className = "product";
-    productElement.innerHTML = `
-        <img src="${product.image}" alt="${product.name}">
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <p>Prezzo: ${product.price} €</p>
-        <button class="add-to-cart" data-id="${product.id}">Aggiungi al carrello</button>
-    `;
-    return productElement;
+function aggiungiAlCarrello() {
+  var carrello = document.getElementById("carrello");
+  var numero = parseInt(carrello.innerHTML);
+  numero++;
+  carrello.innerHTML = numero;
+}
+function rimuoviDalCarrello() {
+  var carrello = document.getElementById("carrello");
+  var numero = parseInt(carrello.innerHTML);
+  numero--;
+  carrello.innerHTML = numero;
+}
+function svuotaCarrello() {
+  var carrello = document.getElementById("carrello");
+  carrello.innerHTML = 0;
 }
 
-// Funzione per aggiornare il carrello
-function updateCart() {
-    const cartList = document.querySelector(".cart ul");
-    const cartTotalElement = document.getElementById("cart-total");
-    let total = 0;
 
-    // Pulisci il contenuto del carrello
-    cartList.innerHTML = "";
+/*menu*/
+var Menu = {
+  el: {
+    menu: $('.menu'),
+    menuTop: $('.menu-top'),
+    menuClose: $('.menu-close'),
+    menuMiddle: $('.menu-middle'),
+    menuBottom: $('.menu-bottom'),
+    menuText: $('.menu-text')
+  },
+  
+  init: function() {
+    Menu.bindUIactions();
+  },
+  
+  bindUIactions: function() {
+    Menu.el.menu
+        .on(
+          'click',
+        function(event) {
+        Menu.activateMenu(event);
+        event.preventDefault();
+      }
+    );
+  },
+  
+  activateMenu: function() {
+    Menu.el.menuTop.toggleClass('menu-top-expand expand');
+    Menu.el.menuMiddle.toggleClass('menu-middle-expand expand');
+    Menu.el.menuBottom.toggleClass('menu-bottom-expand expand'); 
+    Menu.el.menuText.toggleClass('menu-text-expand');
+    Menu.el.menuClose.toggleClass('menu-close-visible');
+  }
+};
+  
+  //Stop menu item click closing the menu
+  $(".menu .menu-global").click(function(e) {
+      e.stopPropagation();
+});
 
-    // Aggiungi gli elementi del carrello
-    cartItems.forEach(item => {
-        const cartItem = document.createElement("li");
-        cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <span>${item.name}</span>
-            <span>Prezzo: ${item.price} €</span>
-            <span>Quantità: ${item.quantity}</span>
-            <button class="remove-from-cart" data-id="${item.id}">Rimuovi</button>
-        `;
-        cartList.appendChild(cartItem);
-        total += item.price * item.quantity;
+Menu.init();
+
+
+
+/*swiper*/
+var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    },)
+
+/*jQuery ready compatto*/
+    $(function
+    ()
+    {
+    $("h1").click(function
+    ()
+    {
+    $("#prodotto1").slideDown();
+    $("#prodotto2").slideDown("slow");
+    $("#prodotto3").slideDown(3000);
+    });
     });
 
-    // Aggiorna il totale
-    cartTotalElement.textContent = `${total} €`;
+
+                                               // prodotti
+var quantity1Input = document.getElementById("quantity1");
+var quantity2Input = document.getElementById("quantity2");
+var quantity3Input = document.getElementById("quantity3");
+var totalCost1Output = document.getElementById("totalCost1");
+var totalCost2Output = document.getElementById("totalCost2");
+var totalCost3Output = document.getElementById("totalCost3");
+var subTotalOutput = document.getElementById("subTotal");
+var shippingCostOutput = document.getElementById("shippingCost");
+var grandTotalOutput = document.getElementById("grandTotal");
+
+quantity1Input.addEventListener("input", updateCosts);
+quantity2Input.addEventListener("input", updateCosts);
+quantity3Input.addEventListener("input", updateCosts);
+
+function updateCosts() {
+  var quantity1 = parseInt(quantity1Input.value);
+  var quantity2 = parseInt(quantity2Input.value);
+  var quantity3 = parseInt(quantity3Input.value);
+  
+  var cost1 = 20;
+  var cost2 = 13;
+  var cost3 = 15;
+  
+  var totalCost1 = quantity1 * cost1;
+  var totalCost2 = quantity2 * cost2;
+  var totalCost3 = quantity3 * cost3;
+  
+  totalCost1Output.textContent = "€" + totalCost1;
+  totalCost2Output.textContent = "€" + totalCost2;
+  totalCost3Output.textContent = "€" + totalCost3;
+  
+  var subTotal = totalCost1 + totalCost2 + totalCost3;
+  var shippingCost = 8;
+  var grandTotal = subTotal + shippingCost;
+  
+  subTotalOutput.textContent = "€" + subTotal;
+  shippingCostOutput.textContent = "€" + shippingCost;
+  grandTotalOutput.textContent = "€" + grandTotal;
 }
-
-// Aggiungi event listener per il pulsante "Carrello"
-const cartButton = document.getElementById("cart-button");
-cartButton.addEventListener("click", () => {
-    const cartElement = document.querySelector(".cart");
-    cartElement.classList.toggle("show-cart");
-});
-
-// Aggiungi event listener per i pulsanti "Aggiungi al carrello"
-const productsElement = document.querySelector(".products");
-productsElement.addEventListener("click", (event) => {
-    if (event.target.classList.contains("add-to-cart")) {
-        const productId = parseInt(event.target.getAttribute("data-id"), 10);
-        const product = productsData.find(product => product.id === productId);
-
-        if (product) {
-            const cartItem = cartItems.find(item => item.id === productId);
-
-            if (cartItem) {
-                cartItem.quantity += 1;
-            } else {
-                cartItems.push({ ...product, quantity: 1 });
-            }
-
-            updateCart();
-        }
-    }
-});
-
-// Aggiungi event listener per i pulsanti "Rimuovi"
-const cartList = document.querySelector(".cart ul");
-cartList.addEventListener("click", (event) => {
-    if (event.target.classList.contains("remove-from-cart")) {
-        const productId = parseInt(event.target.getAttribute("data-id"), 10);
-        const index = cartItems.findIndex(item => item.id === productId);
-
-        if (index !== -1) {
-            const cartItem = cartItems[index];
-
-            if (cartItem.quantity > 1) {
-                cartItem.quantity -= 1;
-            } else {
-                cartItems.splice(index, 1);
-            }
-
-            updateCart();
-        }
-    }
-});
-
-// Popola la pagina con i prodotti
-const productsContainer = document.querySelector(".products");
-productsData.forEach(product => {
-    const productElement = createProductElement(product);
-    productsContainer.appendChild(productElement);
-});
