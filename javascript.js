@@ -1,109 +1,32 @@
-function aggiungiAlCarrello() {
-  var carrello = document.getElementById("carrello");
-  var numero = parseInt(carrello.innerHTML);
-  numero++;
-  carrello.innerHTML = numero;
-}
-function rimuoviDalCarrello() {
-  var carrello = document.getElementById("carrello");
-  var numero = parseInt(carrello.innerHTML);
-  numero--;
-  carrello.innerHTML = numero;
-}
-function svuotaCarrello() {
-  var carrello = document.getElementById("carrello");
-  carrello.innerHTML = 0;
-}
-
-
-/*menu*/
-var Menu = {
-  el: {
-    menu: $('.menu'),
-    menuTop: $('.menu-top'),
-    menuClose: $('.menu-close'),
-    menuMiddle: $('.menu-middle'),
-    menuBottom: $('.menu-bottom'),
-    menuText: $('.menu-text')
-  },
-  
-  init: function() {
-    Menu.bindUIactions();
-  },
-  
-  bindUIactions: function() {
-    Menu.el.menu
-        .on(
-          'click',
-        function(event) {
-        Menu.activateMenu(event);
-        event.preventDefault();
-      }
-    );
-  },
-  
-  activateMenu: function() {
-    Menu.el.menuTop.toggleClass('menu-top-expand expand');
-    Menu.el.menuMiddle.toggleClass('menu-middle-expand expand');
-    Menu.el.menuBottom.toggleClass('menu-bottom-expand expand'); 
-    Menu.el.menuText.toggleClass('menu-text-expand');
-    Menu.el.menuClose.toggleClass('menu-close-visible');
-  }
-};
-  
-  //Stop menu item click closing the menu
-  $(".menu .menu-global").click(function(e) {
-      e.stopPropagation();
-});
-
-Menu.init();
-
-
-
-/*swiper*/
-var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    },)
-
-/*jQuery ready compatto*/
-    $(function
-    ()
-    {
-    $("h1").click(function
-    ()
-    {
-    $("#prodotto1").slideDown();
-    $("#prodotto2").slideDown("slow");
-    $("#prodotto3").slideDown(3000);
-    });
-    });
-
-
-                                               // prodotti
-// Esempio di dati del carrello (caffettiere) con foto, nome, prezzo fittizio e quantità
-const cartItems = [
-    { id: 1, name: "Caffettiera Moka Express", price: 25, quantity: 2, image: "moka.jpg" },
-    { id: 2, name: "Caffettiera a filtro automatica", price: 45, quantity: 1, image: "filtro.jpg" },
-    { id: 3, name: "Caffettiera Aeropress", price: 30, quantity: 3, image: "aeropress.jpg" }
+// Esempio di dati dei prodotti
+const productsData = [
+    { id: 1, name: "Caffettiera Moka Express", price: 25, image: "moka.jpg", description: "Una caffettiera classica per il caffè espresso." },
+    { id: 2, name: "Caffettiera a filtro automatica", price: 45, image: "filtro.jpg", description: "Per un caffè filtrato fresco e aromatico." },
+    { id: 3, name: "Caffettiera Aeropress", price: 30, image: "aeropress.jpg", description: "Un sistema di estrazione versatile per il caffè." }
 ];
+
+// Dati del carrello
+const cartItems = [];
+
+// Funzione per creare un elemento di prodotto
+function createProductElement(product) {
+    const productElement = document.createElement("div");
+    productElement.className = "product";
+    productElement.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <p>Prezzo: ${product.price} €</p>
+        <button class="add-to-cart" data-id="${product.id}">Aggiungi al carrello</button>
+    `;
+    return productElement;
+}
 
 // Funzione per aggiornare il carrello
 function updateCart() {
     const cartElement = document.getElementById("cart");
-    const totalElement = document.getElementById("total");
+    const cartCountElement = document.getElementById("cart-count");
+    const cartTotalElement = document.getElementById("cart-total");
     let total = 0;
 
     // Pulisci il contenuto del carrello
@@ -112,30 +35,77 @@ function updateCart() {
     // Aggiungi gli elementi del carrello
     cartItems.forEach(item => {
         const cartItem = document.createElement("div");
-        cartItem.id = `cart-item-${item.id}`;
         cartItem.className = "cart-item";
         cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="product-image">
-            <div class="product-details">
-                <span class="product-name">${item.name}</span>
-                <span class="product-price">${item.price} €</span>
-                <input type="number" value="${item.quantity}" class="product-quantity">
+            <img src="${item.image}" alt="${item.name}">
+            <div>
+                <p>${item.name}</p>
+                <p>Prezzo: ${item.price} €</p>
+                <p>Quantità: ${item.quantity}</p>
             </div>
+            <button class="remove-from-cart" data-id="${item.id}">Rimuovi</button>
         `;
         cartElement.appendChild(cartItem);
         total += item.price * item.quantity;
     });
 
-    // Aggiorna il totale
-    totalElement.textContent = total;
+    // Aggiorna il conteggio del carrello e il totale
+    cartCountElement.textContent = cartItems.length;
+    cartTotalElement.textContent = `Totale: ${total} €`;
 }
 
-// Aggiungi un evento al pulsante di pagamento
-const checkoutButton = document.getElementById("checkout");
-checkoutButton.addEventListener("click", () => {
-    alert("Pagamento effettuato con successo!");
+// Aggiungi event listener per il pulsante "Carrello"
+const cartButton = document.getElementById("cart-button");
+cartButton.addEventListener("click", () => {
+    const cartElement = document.getElementById("cart");
+    cartElement.classList.toggle("show-cart");
 });
 
-// Aggiorna il carrello inizialmente
-updateCart();
+// Aggiungi event listener per i pulsanti "Aggiungi al carrello"
+const productsElement = document.getElementById("products");
+productsElement.addEventListener("click", (event) => {
+    if (event.target.classList.contains("add-to-cart")) {
+        const productId = parseInt(event.target.getAttribute("data-id"), 10);
+        const product = productsData.find(product => product.id === productId);
 
+        if (product) {
+            const cartItem = cartItems.find(item => item.id === productId);
+
+            if (cartItem) {
+                cartItem.quantity += 1;
+            } else {
+                cartItems.push({ ...product, quantity: 1 });
+            }
+
+            updateCart();
+        }
+    }
+});
+
+// Aggiungi event listener per i pulsanti "Rimuovi"
+const cartElement = document.getElementById("cart");
+cartElement.addEventListener("click", (event) => {
+    if (event.target.classList.contains("remove-from-cart")) {
+        const productId = parseInt(event.target.getAttribute("data-id"), 10);
+        const index = cartItems.findIndex(item => item.id === productId);
+
+        if (index !== -1) {
+            const cartItem = cartItems[index];
+
+            if (cartItem.quantity > 1) {
+                cartItem.quantity -= 1;
+            } else {
+                cartItems.splice(index, 1);
+            }
+
+            updateCart();
+        }
+    }
+});
+
+// Popola la pagina con i prodotti
+const productsContainer = document.getElementById("products");
+productsData.forEach(product => {
+    const productElement = createProductElement(product);
+    productsContainer.appendChild(productElement);
+});
